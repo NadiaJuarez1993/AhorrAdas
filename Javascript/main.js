@@ -174,7 +174,13 @@ const initializeApp = () => {
     showElement(["#category-view"]);
   });
 
+  $("#btn-balance").addEventListener("click", () => {
+    showElement(["#main-view"]);
+  });
 
+
+
+ 
   
 
 };
