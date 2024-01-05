@@ -178,10 +178,16 @@ const initializeApp = () => {
     showElement(["#main-view"]);
   });
 
+  $("#btn-hamburguer-menu").addEventListener("click", () => {
+    showElement(["#nav-bar", "#btn-close-menu"]);
+    hideElement(["#btn-hamburguer-menu"]);
+    
+  });
 
-
- 
-  
+  $("#btn-close-menu").addEventListener("click", () => {
+    showElement(["#btn-hamburguer-menu"]);
+    hideElement(["#nav-bar","#btn-close-menu"]); 
+  });
 
 };
 
