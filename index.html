@@ -50,12 +50,12 @@
     <main class="w-full">
         <!-- ___VISTA principal___ -->   
      <section id="main-view" class="grid justify-items-center">  
-         <div class="mt-7 flex flex-col md:w-9/12 xl:grid grid-rows-3 grid-flow-col gap-4">
+         <div class="mt-16 flex flex-col w-96 md:w-9/12 xl:grid grid-rows-3 grid-flow-col gap-4">
                 <!-- parte balance  -->
                 <div class="bg-gray-100 mb-5 px-1.5 rounded border shadow-xl mx-3 xl:row-span-1">
-                        <h3 class="text-3xl font-bold mb-6 mt-4">
+                        <h2 class="text-3xl font-bold mb-6 mt-4">
                             Balance
-                        </h3>
+                        </h2>
                         <div class="text-xl flex flex-col">
                             <div class="my-3 flex justify-between">
                                 <div>Ganancias</div>
@@ -74,7 +74,7 @@
                 <!-- parte de filtro de filtros -->
                 <div class="bg-gray-100 mb-5 px-1.5 rounded border shadow-xl flex flex-col mx-3">
                     <div class="my-3 flex justify-between items-center">
-                        <h3 class="text-3xl font-bold"> Filtros </h3>
+                        <h2 class="text-3xl font-bold"> Filtros </h2>
                         <a href="#" class="text-blue-600 hover:text-black">Ocultar filtros</a>
                    </div>
                    <form class="flex flex-col">
@@ -120,10 +120,10 @@
                      </article>
                  </form>
              </div>
-             <div class=" bg-gray-100 flex flex-col mx-3  xl:row-span-2 col-span-2">
+             <div class=" bg-gray-100 flex flex-col mx-1  xl:row-span-2 col-span-2">
                  <div class="mx-3 my-4 mb-18 flex flex-col bg-gray-100">
                     <div class="xl:flex justify-between">
-                        <h3 class="text-3xl font-bold ">Operaciones</h3>
+                        <h2 class="text-3xl font-bold ">Operaciones</h2>
                         <button id="new-operation-btn" class="text-white w-40 mt-2 rounded bg-emerald-400 flex justify-center items-center md:w-36 xl:h-10">+ Nueva Operación
                         </button>
                      </div>
@@ -137,10 +137,10 @@
                      </div>
 
                      <!-- VISTA CON OPERACIONES -->
-                     <section id="width-operations" class="flex  m-1  flex flex-col hidden">
-                         <div id="operation-table" >
-                            <table class="table-fixed">
-                                <thead>
+                     <section id="width-operations" class="flex m-1 flex flex-col hidden">
+                         <div id="operation-table" class="" >
+                            <table class="m-0  ">
+                                <thead class="m-0">
                                     <tr class=" lg:w-1/5 text-center">
                                         <th class="lg:w-1/5">Descripcion</th>
                                         <th class="lg:w-1/5">Categoria</th>
