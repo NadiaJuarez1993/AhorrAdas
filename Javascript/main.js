@@ -60,9 +60,9 @@ const addOperation = () => {
 };
 
 //GUARDAMOS LA INFO DEL FORMULARIO Y NOS RETORNA  UN OBJETO CON LA INFO
-const saveOperationsInfo = () => {
+const saveOperationsInfo = (operationId) => {
   return {
-    id: randomId(),
+    id: operationId ? operationId : randomId(), //tengo user id, entonces guardame ese id que paso por parametro y sino pasame un id nuevo
     description: $("#description-input").value,
     amount: $("#amount-input").value,
     type: $("#type-input").value,
