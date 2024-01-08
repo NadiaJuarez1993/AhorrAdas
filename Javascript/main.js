@@ -21,17 +21,8 @@ const hideElement = (selectors) => {
 const getData = (key) => JSON.parse(localStorage.getItem(key));
 const setData = (key, data) => localStorage.setItem(key, JSON.stringify(data));
 
-//categorias pre establecidas
-
-
 //INICIALIZACION DE NUESTROS USUARIOS
 const allOperations = getData("operations") || []; //logica para pintar tabla: PEDIMOS INFO AL LOCAL STORAGE, SI TRAE INFO SE GUARDA EN VARIABLE ALL USERS Y SI NO SE CUMPLE SE GUARDA EN EL ARRAY VACIO
-const allCategories = getData("categories") || defaultCategories; //sino hay nuevas categorias , carga las categorias por defaoult
-
-
-
-
- 
 
 /*OPERACIONES*/
 const renderOperations = (operations) => {
@@ -167,6 +158,8 @@ const defaultCategories = [
   },
 ];
 
+const allCategories = getData("categories") || defaultCategories; 
+
 const renderCategoriesTable = (categories) => {
   for (const category of categories) {
     $("#table-category").innerHTML += `
@@ -174,7 +167,7 @@ const renderCategoriesTable = (categories) => {
      <td class="text-green-500 w-3/6 my-5">${category.categoryName}
      </td>
         <td class="flex flex-row ">
-           <button class="rounded-none bg-inherit text-blue-600 hover:text-black mr-3 w-3/6 my-5"  onclick="showEditCategory('${category.id}')" ><a>Editar</a></button>
+           <button class="rounded-none bg-inherit text-blue-600 hover:text-black mr-3 w-3/6 my-5" onclick="showEditCategory('${category.id}')" ><a>Editar</a></button>
             <button class="rounded-none bg-inherit text-blue-600 hover:text-black"><a>Eliminar</a></button>
          </td>
     </tr>
@@ -184,7 +177,7 @@ const renderCategoriesTable = (categories) => {
 
 const renderCategoryOptions = (categories) => {
   for (const category of categories) {
-    $("#category-input").innerHTML += `
+    $("#category-edit-input").innerHTML += `
     <option value="${category.id}">${category.categoryName}</option>
     `;
   }
@@ -201,7 +194,7 @@ const addCategory = () => {
 const saveCategoryInfo = (categoryId) => {
   return {
     id: categoryId ? categoryId : randomId(),
-    categoryName: $("#category-input").value,
+    categoryName: $("#category-edit-input").value,
   };
 };
 
@@ -210,7 +203,7 @@ const showEditCategory = (categoryId) => {
   hideElement(["#category-view"])
  $("#btn-confirm-edit-category").setAttribute("data-id", categoryId)
  const categorySelected = getData("categories").find((category) => category.id === categoryId)
- $("#category-input").value = categorySelected.categoryName;
+ $("#category-edit-input").value = categorySelected.categoryName;
 }
 
 const editCategory = () => {
@@ -225,11 +218,6 @@ const editCategory = () => {
   renderCategoriesTable(currentData)
 
 }
-
-
-
-
-
 
 
 /*EVENTS*/
