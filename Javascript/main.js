@@ -53,8 +53,12 @@ const defaultCategories = [
 const allOperations = getData("operations") || []; //logica para pintar tabla: PEDIMOS INFO AL LOCAL STORAGE, SI TRAE INFO SE GUARDA EN VARIABLE ALL USERS Y SI NO SE CUMPLE SE GUARDA EN EL ARRAY VACIO
 const allCategories = getData("categories") || defaultCategories; //sino hay nuevas categorias , carga las categorias por defaoult
 
-/*RENDERS*/
-//SE ENCARGA DE RECIBIR LA OPERERACIONES COMO PARAMETROS PARA QE PODAMOS RECORRERER LA CANTIDAD DE OPERACIONES QUE HAYA CON ESTE BUCLE Y GENERAMOS LA TABLA
+
+
+
+ 
+
+/*OPERACIONES*/
 const renderOperations = (operations) => {
   // funcion para tabla de operaciones
   if (operations.length) {
@@ -83,30 +87,7 @@ const renderOperations = (operations) => {
   }
 };
 
- const renderCategoriesTable = (categories) => {
-    for (const category of categories) {
-      $("#table-category").innerHTML += `
-       <tr>          
-       <td class="text-green-500">${category.categoryName}
-       </td>
-          <td>
-             <button class="rounded-none bg-inherit text-blue-600 hover:text-black"><a>Editar</a></button>
-              <button class="rounded-none bg-inherit text-blue-600 hover:text-black"><a>Eliminar</a></button>
-           </td>
-      </tr>
-     `;
-    }
-  };
 
-const renderCategoryOptions = (categories) => {
-    for (const category of categories) {
-      $("#category-input").innerHTML += `
-      <option value="${category.id}">${category.categoryName}</option>
-      `;
-    }
-};
-
-/*DATA HANDLERS*/
 //Agregar operaciones
 const addOperation = () => {
   const currentData = getData("operations"); // pido la info
@@ -115,7 +96,7 @@ const addOperation = () => {
   renderOperations(currentData); // aca aparece la tabla pintada pero undifine
 };
 
-//GUARDAMOS LA INFO DEL FORMULARIO Y NOS RETORNA  UN OBJETO CON LA INFO
+/*GUARDAR OPERACION*/
 const saveOperationsInfo = (operationId) => {
   return {
     id: operationId ? operationId : randomId(), //tengo user id, entonces guardame ese id que paso por parametro y sino pasame un id nuevo
@@ -126,9 +107,8 @@ const saveOperationsInfo = (operationId) => {
     date: $("#date-input").value,
   };
 };
-//en el boton de editar le paso el aide por parametro onclick="showFormEdit('${operation.id}')" a la funciom, el id lo recibo en la funcion const showFormEdit = (operationsId) y asi definimos parametro
+//en el boton de editar le paso el ID por parametro onclick="showFormEdit('${operation.id}')" a la funciom, el id lo recibo en la funcion const showFormEdit = (operationsId) y asi definimos parametro
 
-//SE EJECUTA EN EL BOTON DE EDITAR (CAMBIO DE PANTALLA)
 const showFormEdit = (operationId) => {
   //CAMBIO DE PANTALLA
   hideElement(["#main-view", "#btn-add-operation", "#new-opration-title"]);
@@ -162,7 +142,6 @@ const editOperation = () => {
   setData("operations", currentData);
 };
 
-
 //mostrar ventana modal
 const showDeleteModal = (operationId, operationDescription) => {
   showElement(["#delete-modal"]);
@@ -176,6 +155,7 @@ const showDeleteModal = (operationId, operationDescription) => {
   });
 };
 //eliminar una operacion
+
 const deleteOperation = (operationId) => {
   const currentData = getData("operations").filter(
     (operation) => operation.id != operationId
@@ -183,8 +163,31 @@ const deleteOperation = (operationId) => {
   setData("operations", currentData);
   window.location.reload();
 };
-
+/************************************************************************************************************************************** */
 /*CATEGORIAS*/
+const renderCategoriesTable = (categories) => {
+  for (const category of categories) {
+    $("#table-category").innerHTML += `
+     <tr>          
+     <td class="text-green-500 w-3/6 my-5">${category.categoryName}
+     </td>
+        <td class="flex flex-row ">
+           <button class="rounded-none bg-inherit text-blue-600 hover:text-black mr-3 w-3/6 my-5"><a>Editar</a></button>
+            <button class="rounded-none bg-inherit text-blue-600 hover:text-black"><a>Eliminar</a></button>
+         </td>
+    </tr>
+   `;
+  }
+};
+
+const renderCategoryOptions = (categories) => {
+  for (const category of categories) {
+    $("#category-input").innerHTML += `
+    <option value="${category.id}">${category.categoryName}</option>
+    `;
+  }
+};
+
 const saveCategoryInfo = (categoryId) => {
   return {
     id: categoryId ? categoryId : randomId(),
@@ -256,6 +259,7 @@ const initializeApp = () => {
 
   $("#btn-balance").addEventListener("click", () => {
     showElement(["#main-view"]);
+    hideElement(["#category-view" , "#new-oparation-form"])
   });
 
   $("#btn-hamburguer-menu").addEventListener("click", () => {
