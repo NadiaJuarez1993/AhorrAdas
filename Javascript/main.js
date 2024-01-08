@@ -46,7 +46,7 @@ const defaultCategories = [
   {
     id: randomId(),
     categoryName: "Trabajo",
-  }
+  },
 ];
 
 //INICIALIZACION DE NUESTROS USUARIOS
@@ -61,13 +61,15 @@ const renderOperations = (operations) => {
     hideElement(["#without-operations"]);
     showElement(["#width-operations"]);
     for (const operation of operations) {
-      const categorySelected = getData ("categories").find(category => category.id === operation.category)
+      const categorySelected = getData("categories").find(
+        (category) => category.id === operation.category
+      );
       $("#operation-table-body").innerHTML += `
        <tr>
          <td class="py-4 font-semibold">${operation.description}</td>
-         <td class="text-green-400 py-2">${categorySelected.categoryName}</td>
+         <td class="text-green-500 py-2">${categorySelected.categoryName}</td>
          <td class="py-4">${operation.date}</td>
-         <td class="py-4"> <span class="text-green-500">+$</span><span class="text-red-700 ">-$</span> ${operation.amount}</td>
+         <td class="py-4"> <span class="text-green-400">+$</span><span class="text-red-700 ">-$</span> ${operation.amount}</td>
          <td class="py-4">
          <button class="rounded-none bg-inherit text-blue-600 hover:text-black" onclick="showFormEdit('${operation.id}')"><a>Editar</a></button>  
          <button class="rounded-none bg-inherit text-blue-600 hover:text-black" onclick="showDeleteModal('${operation.id}', '${operation.description}')"><a>Eliminar</a></button>
@@ -81,26 +83,27 @@ const renderOperations = (operations) => {
   }
 };
 
-const renderCategoriesTable = (categories) => {
-   for (const category of categories) {
-     $("#table-category").innerHTML += `
-       <tr>
-         <td>${category.categoryName}</td>
-         <td>
-             <button class="rounded-none bg-inherit text-blue-600 hover:text-black"><a>Editar</a></button>  
-             <button class="rounded-none bg-inherit text-blue-600 hover:text-black"><a>Eliminar</a></button>
-          </td>
-     </tr>
-    `;
-   }
- };
+ const renderCategoriesTable = (categories) => {
+    for (const category of categories) {
+      $("#table-category").innerHTML += `
+       <tr>          
+       <td class="text-green-500">${category.categoryName}
+       </td>
+          <td>
+             <button class="rounded-none bg-inherit text-blue-600 hover:text-black"><a>Editar</a></button>
+              <button class="rounded-none bg-inherit text-blue-600 hover:text-black"><a>Eliminar</a></button>
+           </td>
+      </tr>
+     `;
+    }
+  };
 
 const renderCategoryOptions = (categories) => {
-   for (const category of categories) {
-     $("#category-input").innerHTML += `
-     <option value="${category.id}">${category.categoryName}</option>
-     `;
-   }
+    for (const category of categories) {
+      $("#category-input").innerHTML += `
+      <option value="${category.id}">${category.categoryName}</option>
+      `;
+    }
 };
 
 /*DATA HANDLERS*/
@@ -159,6 +162,7 @@ const editOperation = () => {
   setData("operations", currentData);
 };
 
+
 //mostrar ventana modal
 const showDeleteModal = (operationId, operationDescription) => {
   showElement(["#delete-modal"]);
@@ -180,11 +184,27 @@ const deleteOperation = (operationId) => {
   window.location.reload();
 };
 
+/*CATEGORIAS*/
+const saveCategoryInfo = (categoryId) => {
+  return {
+    id: categoryId ? categoryId : randomId(),
+    categoryName: $("#category-input").value,
+  };
+};
+
+const addCategory = () => {
+  const currentData = getData("categories");
+  currentData.push(saveCategoryInfo());
+  setData("categories", currentData);
+  renderCategoryOptions(currentData);
+  renderCategoriesTable(currentData);
+};
+
 /*EVENTS*/
 const initializeApp = () => {
   setData("operations", allOperations);
   setData("categories", allCategories);
-  renderOperations(allOperations); 
+  renderOperations(allOperations);
   renderCategoriesTable(allCategories);
   renderCategoryOptions(allCategories);
 
@@ -228,6 +248,10 @@ const initializeApp = () => {
   $("#btn-category").addEventListener("click", () => {
     hideElement(["#main-view"]);
     showElement(["#category-view"]);
+  });
+
+  $("#btn-add-category").addEventListener("click", () => {
+    addCategory();
   });
 
   $("#btn-balance").addEventListener("click", () => {
