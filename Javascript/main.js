@@ -22,32 +22,7 @@ const getData = (key) => JSON.parse(localStorage.getItem(key));
 const setData = (key, data) => localStorage.setItem(key, JSON.stringify(data));
 
 //categorias pre establecidas
-const defaultCategories = [
-  {
-    id: randomId(), //genera id dinamico
-    categoryName: "Comida",
-  },
-  {
-    id: randomId(),
-    categoryName: "Servicios",
-  },
-  {
-    id: randomId(),
-    categoryName: "Salidas",
-  },
-  {
-    id: randomId(),
-    categoryName: "Educacion",
-  },
-  {
-    id: randomId(),
-    categoryName: "Transporte",
-  },
-  {
-    id: randomId(),
-    categoryName: "Trabajo",
-  },
-];
+
 
 //INICIALIZACION DE NUESTROS USUARIOS
 const allOperations = getData("operations") || []; //logica para pintar tabla: PEDIMOS INFO AL LOCAL STORAGE, SI TRAE INFO SE GUARDA EN VARIABLE ALL USERS Y SI NO SE CUMPLE SE GUARDA EN EL ARRAY VACIO
@@ -70,7 +45,7 @@ const renderOperations = (operations) => {
       );
       $("#operation-table-body").innerHTML += `
        <tr>
-         <td class="py-4 font-semibold">${operation.description}</td>
+         <td class="py-4 font-semibold">${operation.description}></td>
          <td class="text-green-500 py-2">${categorySelected.categoryName}</td>
          <td class="py-4">${operation.date}</td>
          <td class="py-4"> <span class="text-green-400">+$</span><span class="text-red-700 ">-$</span> ${operation.amount}</td>
@@ -155,7 +130,6 @@ const showDeleteModal = (operationId, operationDescription) => {
   });
 };
 //eliminar una operacion
-
 const deleteOperation = (operationId) => {
   const currentData = getData("operations").filter(
     (operation) => operation.id != operationId
@@ -165,6 +139,34 @@ const deleteOperation = (operationId) => {
 };
 /************************************************************************************************************************************** */
 /*CATEGORIAS*/
+/*categorias preestablecidas*/
+const defaultCategories = [
+  {
+    id: randomId(), //genera id dinamico
+    categoryName: "Comida",
+  },
+  {
+    id: randomId(),
+    categoryName: "Servicios",
+  },
+  {
+    id: randomId(),
+    categoryName: "Salidas",
+  },
+  {
+    id: randomId(),
+    categoryName: "Educacion",
+  },
+  {
+    id: randomId(),
+    categoryName: "Transporte",
+  },
+  {
+    id: randomId(),
+    categoryName: "Trabajo",
+  },
+];
+
 const renderCategoriesTable = (categories) => {
   for (const category of categories) {
     $("#table-category").innerHTML += `
@@ -172,7 +174,7 @@ const renderCategoriesTable = (categories) => {
      <td class="text-green-500 w-3/6 my-5">${category.categoryName}
      </td>
         <td class="flex flex-row ">
-           <button class="rounded-none bg-inherit text-blue-600 hover:text-black mr-3 w-3/6 my-5"><a>Editar</a></button>
+           <button class="rounded-none bg-inherit text-blue-600 hover:text-black mr-3 w-3/6 my-5"  onclick="showEditCategory('${category.id}')" ><a>Editar</a></button>
             <button class="rounded-none bg-inherit text-blue-600 hover:text-black"><a>Eliminar</a></button>
          </td>
     </tr>
@@ -188,13 +190,6 @@ const renderCategoryOptions = (categories) => {
   }
 };
 
-const saveCategoryInfo = (categoryId) => {
-  return {
-    id: categoryId ? categoryId : randomId(),
-    categoryName: $("#category-input").value,
-  };
-};
-
 const addCategory = () => {
   const currentData = getData("categories");
   currentData.push(saveCategoryInfo());
@@ -202,6 +197,40 @@ const addCategory = () => {
   renderCategoryOptions(currentData);
   renderCategoriesTable(currentData);
 };
+
+const saveCategoryInfo = (categoryId) => {
+  return {
+    id: categoryId ? categoryId : randomId(),
+    categoryName: $("#category-input").value,
+  };
+};
+
+const showEditCategory = (categoryId) => {
+  showElement(["#edit-categoy"])
+  hideElement(["#category-view"])
+ $("#btn-confirm-edit-category").setAttribute("data-id", categoryId)
+ const categorySelected = getData("categories").find((category) => category.id === categoryId)
+ $("#category-input").value = categorySelected.categoryName;
+}
+
+const editCategory = () => {
+  const categoryId =  $("#btn-confirm-edit-category").getAttribute ("data-id")
+  const currentData = getData("categories").map((category) => {
+    if (category.id === categoryId){
+      return saveCategoryInfo (categoryId)
+    }
+    return category
+  })
+  setData("categories", currentData)
+  renderCategoriesTable(currentData)
+
+}
+
+
+
+
+
+
 
 /*EVENTS*/
 const initializeApp = () => {
@@ -234,6 +263,12 @@ const initializeApp = () => {
   $("#btn-edit-operation").addEventListener("click", (e) => {
     e.preventDefault();
     editOperation();
+    window.location.reload(); // RECARGAMOS LA PAGINA
+  });
+
+  $("#btn-confirm-edit-category").addEventListener("click", (e) => {
+    e.preventDefault();
+    editCategory();
     window.location.reload(); // RECARGAMOS LA PAGINA
   });
 
@@ -271,6 +306,20 @@ const initializeApp = () => {
     showElement(["#btn-hamburguer-menu"]);
     hideElement(["#nav-bar", "#btn-close-menu"]);
   });
+
+  $("#btn-confirm-edit-category").addEventListener("click", () => {
+    e.preventDefault();
+    editCategory()
+    window.location.reload();
+  });
+
+  $("#btn-cancel-edit-category").addEventListener("click", () => {
+    showElement(["#category-view "]);
+    hideElement(["#edit-categoy"]);
+  });
+
+
+
 };
 
 window.addEventListener("load", initializeApp);
