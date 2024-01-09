@@ -182,6 +182,9 @@ const renderCategoryOptions = (categories) => {
     $("#category-input").innerHTML += `
     <option value="${category.id}">${category.categoryName}</option>
     `;
+    $("#filter-category").innerHTML += `
+    <option value="${category.id}">${category.categoryName}</option>
+    `;
   }
 };
 
@@ -242,8 +245,22 @@ const deleteCategory = (categoryId) => {
   setData("categories", currentData);
   window.location.reload();
 };
+/************************************************************************************************************************** */
+/*BALANCE*/
 
 
+
+
+/************************************************************************************************************************ */
+/*FILTROS*/
+
+
+
+
+
+
+
+/************************************************************************************************************************ */
 /*EVENTS*/
 const initializeApp = () => {
   setData("operations", allOperations);
