@@ -34,12 +34,15 @@ const renderOperations = (operations) => {
       const categorySelected = getData("categories").find(
         (category) => category.id === operation.category
       );
+      const amountType =
+      operation.type === "ganancia" ? "text-green-400" : "text-red-400";
+    const amountSign = operation.type === "ganancia" ? "+$" : "-$";
       $("#operation-table-body").innerHTML += `
        <tr>
          <td class="py-4 font-semibold">${operation.description}></td>
          <td class="text-green-500 py-2">${categorySelected.categoryName}</td>
          <td class="py-4">${operation.date}</td>
-         <td class="py-4"> <span class="text-green-400">+$</span><span class="text-red-700 ">-$</span> ${operation.amount}</td>
+         <td class="py-4  ${amountType} ">${amountSign} ${operation.amount}</td>
          <td class="py-4">
          <button class="rounded-none bg-inherit text-blue-600 hover:text-black" onclick="showFormEdit('${operation.id}')"><a>Editar</a></button>  
          <button class="rounded-none bg-inherit text-blue-600 hover:text-black" onclick="showDeleteModal('${operation.id}', '${operation.description}')"><a>Eliminar</a></button>
@@ -166,7 +169,7 @@ const renderCategoriesTable = (categories) => {
      <td class="text-green-500 w-3/6 my-5">${category.categoryName}
      </td>
         <td class="flex flex-row ">
-           <button class="rounded-none bg-inherit text-blue-600 hover:text-black mr-3 w-3/6 my-5" onclick="showEditCategory('${category.id}')" ><a>Editar</a></button>
+           <button class="rounded-none bg-inherit text-blue-600 hover:text-black mr-3 w-3/6 my-5 pl-11" onclick="showEditCategory('${category.id}')" ><a>Editar</a></button>
             <button class="rounded-none bg-inherit text-blue-600 hover:text-black" onclick="showDeleteCategoryModal('${category.id}', '${category.categoryName}')"><a>Eliminar</a></button>
          </td>
     </tr>
@@ -327,10 +330,15 @@ const initializeApp = () => {
     hideElement(["#edit-categoy"]);
   });
 
+  $("#btn-cancel-delete-category-modal").addEventListener("click", () => {
+    showElement(["#category-view "]);
+    hideElement(["#delete-category-modal"]);
+  });
 
-
-
-
+  $("#btn-close-delete-category-modal").addEventListener("click", () => {
+    showElement(["#category-view "]);
+    hideElement(["#delete-category-modal"]);
+  });
 };
 
 window.addEventListener("load", initializeApp);
