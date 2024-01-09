@@ -177,7 +177,7 @@ const renderCategoriesTable = (categories) => {
 
 const renderCategoryOptions = (categories) => {
   for (const category of categories) {
-    $("#category-edit-input").innerHTML += `
+    $("#category-input").innerHTML += `
     <option value="${category.id}">${category.categoryName}</option>
     `;
   }
@@ -210,7 +210,11 @@ const editCategory = () => {
   const categoryId =  $("#btn-confirm-edit-category").getAttribute ("data-id")
   const currentData = getData("categories").map((category) => {
     if (category.id === categoryId){
-      return saveCategoryInfo (categoryId)
+      return{
+        id: categoryId,
+        categoryName: $("#category-edit-input").value,
+      }
+      
     }
     return category
   })
