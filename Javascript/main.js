@@ -117,7 +117,6 @@ const showDeleteModal = (operationId, operationDescription) => {
   $("#btn-delete").addEventListener("click", () => {
     const operationId = $("#btn-delete").getAttribute("data-id"); //tomo el id de la operacion
     deleteOperation(operationId); //eliminacion
-    window.location.reload();
   });
 };
 //eliminar una operacion
@@ -168,7 +167,7 @@ const renderCategoriesTable = (categories) => {
      </td>
         <td class="flex flex-row ">
            <button class="rounded-none bg-inherit text-blue-600 hover:text-black mr-3 w-3/6 my-5" onclick="showEditCategory('${category.id}')" ><a>Editar</a></button>
-            <button class="rounded-none bg-inherit text-blue-600 hover:text-black"><a>Eliminar</a></button>
+            <button class="rounded-none bg-inherit text-blue-600 hover:text-black" onclick="showDeleteCategoryModal('${category.id}', '${category.categoryName}')"><a>Eliminar</a></button>
          </td>
     </tr>
    `;
@@ -213,15 +212,33 @@ const editCategory = () => {
       return{
         id: categoryId,
         categoryName: $("#category-edit-input").value,
-      }
-      
+      } 
     }
     return category
   })
   setData("categories", currentData)
   renderCategoriesTable(currentData)
-
 }
+
+const showDeleteCategoryModal = (categoryId, CategoryDelete) => {
+  showElement(["#delete-category-modal"]);
+  hideElement(["#category-view"]);
+  $("#btn-delete-category").setAttribute("data-id", categoryId);
+  $("#category-name").innerText = `${CategoryDelete}`;
+  $("#btn-delete-category").addEventListener("click", () => {
+    const categoryId = $("#btn-delete-category").getAttribute("data-id");
+    deleteCategory(categoryId);
+    window.location.reload();
+  });
+};
+
+const deleteCategory = (categoryId) => {
+  const currentData = getData("categories").filter(
+    (category) => category.id != categoryId
+  );
+  setData("categories", currentData);
+  window.location.reload();
+};
 
 
 /*EVENTS*/
@@ -309,6 +326,8 @@ const initializeApp = () => {
     showElement(["#category-view "]);
     hideElement(["#edit-categoy"]);
   });
+
+
 
 
 
