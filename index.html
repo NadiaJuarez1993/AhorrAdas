@@ -72,9 +72,11 @@
                 <div class="bg-gray-100 mb-5 px-1.5 rounded border shadow-xl flex flex-col mx-3">
                     <div class="my-3 flex justify-between items-center">
                         <h2 class="text-3xl font-bold"> Filtros </h2>
-                        <a href="#" class="text-blue-600 hover:text-black">Ocultar filtros</a>
+                        <a href="#" id="filter-hidden" class="text-blue-600 hover:text-black">Ocultar filtros</a>
+                        <a href="#" id="filter-show" class="text-blue-600 hover:text-black hidden">Mostrar filtros</a>
                    </div>
-                   <form class="flex flex-col">
+                   
+                   <form id="filter-form" class="flex flex-col">
                       <!-- tipo -->
                      <label class="font-semibold mb-1 flex flex-col">Tipo</label>
                      <select id=""class="border rounded p-1 hover:outline hover:outline-gray-300 focus:outline focus:outline-blue-600   flex">
